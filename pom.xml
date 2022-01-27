@@ -4,14 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.kie.kogito</groupId>
-    <artifactId>kogito-build-parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
-  </parent>
 
-  <groupId>org.kie.kogito.examples</groupId>
+  <groupId>org.kie.kogito</groupId>
   <artifactId>kogito-examples</artifactId>
+  <version>0.16.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Kogito Example</name>
@@ -32,25 +28,52 @@
   </licenses>
 
   <properties>
+    <version.maven>3.6.2</version.maven>
+    <version.compiler.plugin>3.8.1</version.compiler.plugin>
+    <version.enforcer.plugin>3.0.0-M2</version.enforcer.plugin>
+    <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <version.source.plugin>3.0.1</version.source.plugin>
+    <version.jar.plugin>3.1.0</version.jar.plugin>
 
     <surefire.forkCount>1</surefire.forkCount>
     <failsafe.include>**/*IT.java</failsafe.include>
     <failsafe.exclude>**/Native*IT.java</failsafe.exclude>
     <alphanetworkCompilerEnabled>false</alphanetworkCompilerEnabled>
     <tests.category></tests.category>
+
+    <version.io.quarkus>1.8.0.Final</version.io.quarkus>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- springboot related -->
+    <springboot.version>2.3.1.RELEASE</springboot.version>
     <!-- kogito -->
     <kogito.version>${project.version}</kogito.version>
-    <version.org.drools>8.17.0-SNAPSHOT</version.org.drools>
-    <version.org.optaplanner>8.17.0-SNAPSHOT</version.org.optaplanner>
-    <!-- dependencies version -->
-    <version.org.skyscreamer>1.5.0</version.org.skyscreamer>
-    <!-- JKube -->
-    <version.org.eclipse.jkube>1.4.0</version.org.eclipse.jkube>
-    <!-- WebJars -->
-    <version.org.webjars>4.5.3</version.org.webjars>
+    <version.org.optaplanner>8.0.0-SNAPSHOT</version.org.optaplanner>
+    <!-- infinispan -->
+    <infinispan.version>10.1.5.Final</infinispan.version>
+    <infinispan.starter.version>2.2.3.Final</infinispan.starter.version>
+    <container.image.infinispan>quay.io/infinispan/server:${infinispan.version}</container.image.infinispan>
+    <!-- keycloak -->
+    <keycloak.version>11.0.0</keycloak.version>
+    <container.image.keycloak>quay.io/keycloak/keycloak:${keycloak.version}</container.image.keycloak>
+    <!-- testcontainers -->
+    <version.testcontainers>1.14.3</version.testcontainers>
+    <!-- jsonpath-->
+    <version.jayway.jsonpath>2.4.0</version.jayway.jsonpath>
+    <version.swagger.plugin>2.1.0</version.swagger.plugin>
+    <version.surefire.plugin>2.22.2</version.surefire.plugin>
+    <version.deploy.plugin>2.8.2</version.deploy.plugin>
+    <!-- license plugin -->
+    <version.license.plugin>3.0</version.license.plugin>
+    <skipLicensesCheck>false</skipLicensesCheck>
+    <!-- cloudevents -->
+    <version.cloudevents.api>2.0.0-milestone3</version.cloudevents.api>
+    <!-- pmml -->
+    <version.org.jpmml>1.5.1</version.org.jpmml>
+    <version.wiremock>2.27.2</version.wiremock>
+
   </properties>
 
   <!-- distributionManagement section -->
@@ -86,6 +109,7 @@
     </repository>
   </repositories>
 
+
   <pluginRepositories>
     <pluginRepository>
       <id>jboss-public-repository-group</id>
@@ -116,24 +140,154 @@
     </developer>
   </developers>
 
-  <modules>
-    <module>kogito-quarkus-examples</module>
-    <module>kogito-springboot-examples</module>
-  </modules>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>decisiontable-quarkus-example</module>
+        <module>decisiontable-springboot-example</module>
+        <module>dmn-listener-quarkus</module>
+        <module>dmn-listener-springboot</module>
+        <module>dmn-pmml-quarkus-example</module>
+        <module>dmn-pmml-springboot-example</module>
+        <module>dmn-quarkus-example</module>
+        <module>dmn-drools-quarkus-metrics</module>
+        <module>dmn-springboot-example</module>
+        <module>dmn-tracing-quarkus</module>
+        <module>flexible-process-quarkus</module>
+        <module>flexible-process-springboot</module>
+        <module>kogito-travel-agency</module>
+        <module>onboarding-example</module>
+        <module>pmml-quarkus-example</module>
+        <module>pmml-springboot-example</module>
+        <module>process-business-rules-quarkus</module>
+        <module>process-business-rules-springboot</module>
+        <module>process-infinispan-persistence-quarkus</module>
+        <module>process-infinispan-persistence-springboot</module>
+        <module>process-kafka-quickstart-quarkus</module>
+        <module>process-kafka-quickstart-springboot</module>
+        <module>process-knative-quickstart-quarkus</module>
+        <module>process-mongodb-persistence-quarkus</module>
+        <module>process-mongodb-persistence-springboot</module>
+        <module>process-optaplanner-quarkus</module>
+        <module>process-optaplanner-springboot</module>
+        <module>process-quarkus-example</module>
+        <module>process-springboot-example</module>
+        <module>process-scripts-quarkus</module>
+        <module>process-scripts-springboot</module>
+        <module>process-service-calls-quarkus</module>
+        <module>process-service-calls-springboot</module>
+        <module>process-service-rest-call-quarkus</module>
+        <module>process-service-rest-call-springboot</module>
+        <module>process-timer-quarkus</module>
+        <module>process-timer-springboot</module>
+        <module>process-usertasks-custom-lifecycle-quarkus</module>
+        <module>process-usertasks-custom-lifecycle-springboot</module>
+        <module>process-usertasks-quarkus</module>
+        <module>process-usertasks-springboot</module>
+        <module>process-usertasks-with-security-oidc-quarkus</module>
+        <module>process-usertasks-with-security-oidc-springboot</module>
+        <module>process-usertasks-with-security-quarkus</module>
+        <module>process-usertasks-with-security-springboot</module>
+        <module>rules-quarkus-helloworld</module>
+        <module>ruleunit-quarkus-example</module>
+        <module>ruleunit-springboot-example</module>
+        <module>serverless-workflow-greeting-quarkus</module>
+        <module>serverless-workflow-greeting-springboot</module>
+        <module>serverless-workflow-service-calls-quarkus</module>
+        <module>serverless-workflow-service-calls-springboot</module>
+        <module>serverless-workflow-events-quarkus</module>
+        <module>serverless-workflow-functions-quarkus</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>persistence</id>
+      <activation>
+        <property>
+          <name>persistence</name>
+        </property>
+      </activation>
+      <properties>
+        <tests.category>persistence</tests.category>
+      </properties>
+      <modules>
+        <module>onboarding-example</module>
+        <module>process-quarkus-example</module>
+        <module>process-springboot-example</module>
+      </modules>
+    </profile>
+    
+    <profile>
+      <id>events</id>
+      <activation>
+        <property>
+          <name>events</name>
+        </property>
+      </activation>
+      <modules>
+        <module>process-quarkus-example</module>
+        <module>process-springboot-example</module>
+      </modules>
+    </profile>
+  </profiles>
 
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.webjars</groupId>
-        <artifactId>bootstrap</artifactId>
-        <version>${version.org.webjars}</version>
-        <scope>runtime</scope>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers</artifactId>
+        <version>${version.testcontainers}</version>
       </dependency>
       <dependency>
-        <groupId>org.skyscreamer</groupId>
-        <artifactId>jsonassert</artifactId>
-        <version>${version.org.skyscreamer}</version>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>${version.testcontainers}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.jayway.jsonpath</groupId>
+        <artifactId>json-path</artifactId>
+        <version>${version.jayway.jsonpath}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.infinispan</groupId>
+        <artifactId>infinispan-spring-boot-starter-remote</artifactId>
+        <version>${infinispan.starter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.cloudevents</groupId>
+        <artifactId>cloudevents-api</artifactId>
+        <version>${version.cloudevents.api}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.cloudevents</groupId>
+        <artifactId>cloudevents-core</artifactId>
+        <version>${version.cloudevents.api}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.cloudevents</groupId>
+        <artifactId>cloudevents-json-jackson</artifactId>
+        <version>${version.cloudevents.api}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>kafka</artifactId>
+        <version>${version.testcontainers}</version>
+      </dependency>
+
+      <!-- PMML -->
+      <dependency>
+        <groupId>org.jpmml</groupId>
+        <artifactId>pmml-model</artifactId>
+        <version>${version.org.jpmml}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.tomakehurst</groupId>
+        <artifactId>wiremock-jre8</artifactId>
         <scope>test</scope>
+        <version>${version.wiremock}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -142,26 +296,14 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>2.5</version>
-          <executions>
-            <execution>
-              <id>add-it-resources</id>
-              <phase>pre-integration-test</phase>
-              <goals>
-                <goal>copy-resources</goal>
-              </goals>
-              <configuration>
-                <outputDirectory>${project.build.directory}/test-run/META-INF</outputDirectory>
-                <resources>
-                  <resource>
-                    <directory>target/classes/META-INF</directory>
-                  </resource>
-                </resources>
-              </configuration>
-            </execution>
-          </executions>
+          <groupId>io.quarkus</groupId>
+          <artifactId>quarkus-maven-plugin</artifactId>
+          <version>${version.io.quarkus}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${springboot.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -180,15 +322,13 @@
               <tests.category>${tests.category}</tests.category>
               <enable.resource.infinispan>${enable.resource.infinispan}</enable.resource.infinispan>
               <enable.resource.kafka>${enable.resource.kafka}</enable.resource.kafka>
-              <enable.resource.postgresql>${enable.resource.postgresql}</enable.resource.postgresql>
-              <enable.resource.mongodb>${enable.resource.mongodb}</enable.resource.mongodb>
               <container.image.keycloak>${container.image.keycloak}</container.image.keycloak>
               <container.image.infinispan>${container.image.infinispan}</container.image.infinispan>
-              <container.image.kafka>${container.image.kafka}</container.image.kafka>
               <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
+              <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+              <enable.resource.mongodb>${enable.resource.mongodb}</enable.resource.mongodb>
             </systemPropertyVariables>
             <classesDirectory>${project.build.outputDirectory}</classesDirectory>
-            <workingDirectory>${project.build.directory}/test-run</workingDirectory>
           </configuration>
           <executions>
             <execution>
@@ -223,6 +363,11 @@
           </executions>
         </plugin>
         <plugin>
+          <groupId>io.openapitools.swagger</groupId>
+          <artifactId>swagger-maven-plugin</artifactId>
+          <version>${version.swagger.plugin}</version>
+        </plugin>
+        <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>${version.deploy.plugin}</version>
           <configuration>
@@ -246,6 +391,7 @@
             <runOrder>hourly</runOrder>
             <systemPropertyVariables>
               <tests.category>${tests.category}</tests.category>
+              <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
             </systemPropertyVariables>
           </configuration>
         </plugin>
@@ -345,17 +491,6 @@
             </execution>
           </executions>
         </plugin>
-        <!-- Image build / Kubernetes deployment -->
-        <plugin>
-          <groupId>org.eclipse.jkube</groupId>
-          <artifactId>kubernetes-maven-plugin</artifactId>
-          <version>${version.org.eclipse.jkube}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.eclipse.jkube</groupId>
-          <artifactId>openshift-maven-plugin</artifactId>
-          <version>${version.org.eclipse.jkube}</version>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -373,6 +508,39 @@
         <!-- Entry needed to create, install and deploy sources jars -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>${version.license.plugin}</version>
+        <configuration>
+          <header>file:///${maven.multiModuleProjectDirectory}/licensesheader.txt</header>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+          <excludes>
+            <exclude>.mvn/**</exclude>
+            <exclude>**/kogito-apps/**</exclude>
+            <exclude>**/kogito-runtimes/**</exclude>
+          </excludes>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.mycila</groupId>
+            <artifactId>license-maven-plugin-git</artifactId>
+            <version>${version.license.plugin}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <configuration>
+              <skip>${skipLicensesCheck}</skip>
+            </configuration>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
